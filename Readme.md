@@ -8,16 +8,17 @@ Let's say our type is foo.bar.baz.t1
 
 * Create file foo/_foo_bar_baz_t1.jl
 * emit `module _foo_bar_baz_t1`
-* for each dependent type in package foo (or in any subpackage of foo), do:
-	* emit `import _foo_bar_dependent_t`
 * emit `import foo`
 * emit `eval foo.bar.baz begin`
-* for each dependent type regardless of package, do:
-	* if dependent type has package:
-		* let p = top-most package of dependent type
-		* emit `import p`
-	* else:
-		* emit `import _typename: typename`
+* for each dependent type, do:
+    * if dependent type is in package foo (or any subpackage of foo), do:
+        * emit `import _foo_bar_dependent_t`
+    * else 
+    	* if dependent type has package:
+    		* let p = top-most package of dependent type
+    		* emit `import p`
+    	* else:
+    		* emit `import _typename: typename`
 * emit all ZCM type code
 * emit `end`
 * emit `end`
